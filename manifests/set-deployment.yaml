@@ -1,0 +1,35 @@
+object-templates-raw: |
+  {{- range (lookup "apps/v1" "Deployment" "my-app" "").items }}
+  {{- if .spec.selector.matchLabels.app }}
+  - complianceType: musthave
+    objectDefinition:
+      kind: Deployment
+      apiVersion: apps/v1
+      metadata:
+        name: {{ .metadata.name }}
+        namespace: {{ .metadata.namespace }}
+      spec:
+        replicas: 0
+        selector:
+          matchLabels:
+            app: my-app-v2
+            name: {{ .metadata.name }}
+        strategy:
+          type: Recreate
+        template:
+          metadata:
+            labels:
+              app: my-app-v2
+              name: {{ .metadata.name }}
+          spec:
+            containers:
+              - args:
+                  - "999999"
+                command:
+                  - sleep
+                image: registry.access.redhat.com/ubi9/ubi:latest
+                imagePullPolicy: IfNotPresent
+                name: my-app
+            restartPolicy: Always
+  {{- end }}
+  {{- end }}

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-other-app
+  namespace: my-app
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: my-app
+      name: my-other-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: my-app
+        name: my-other-app
+    spec:
+      containers:
+        - args:
+            - "999999"
+          command:
+            - sleep
+          image: registry.access.redhat.com/ubi9/ubi:latest
+          imagePullPolicy: IfNotPresent
+          name: my-app
+      restartPolicy: Always

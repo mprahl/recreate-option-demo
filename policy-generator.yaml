@@ -1,0 +1,14 @@
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: recreate-option-demo
+placementBindingDefaults:
+  name: recreate-option-demo
+policyDefaults:
+  namespace: open-cluster-management-global-set
+  copyPolicyMetadata: false
+policies:
+  - name: update-deployment
+    remediationAction: inform
+    manifests:
+      - path: manifests/set-deployment.yaml
