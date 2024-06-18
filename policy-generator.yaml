@@ -9,6 +9,6 @@ policyDefaults:
   copyPolicyMetadata: false
 policies:
   - name: update-deployment
-    remediationAction: inform
+    remediationAction: enforce
     manifests:
       - path: manifests/set-deployment.yaml
